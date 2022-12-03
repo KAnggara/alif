@@ -8,13 +8,10 @@ jobs:
   web-deploy:
     name: 🎉 FTP Deploy
     runs-on: ubuntu-latest
-    # if: ${{ contains(github.event.head_commit.message, '#api') }}
+    if: ${{ contains(github.event.head_commit.message, '#api') }}
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2
-      - name: 📁 Remove Unused Files and Dir
-        run: |
-          rm -rf docs uno app
       - name: 📂 Sync files
         uses: SamKirkland/FTP-Deploy-Action@4.1.0
         with:
