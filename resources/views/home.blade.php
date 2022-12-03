@@ -49,10 +49,10 @@
 			<div class="flex flex-wrap">
 
 				<div class="w-full p-6 md:w-1/4">
-					<div class="rounded-lg border-b-4 border-blue-500 bg-gradient-to-b from-blue-200 to-blue-100 p-5 shadow-xl">
+					<div class="rounded-lg border-b-4 border-green-500 bg-gradient-to-b from-green-200 to-green-100 p-5 shadow-xl">
 						<div class="flex flex-row items-center">
 							<div class="flex-shrink pr-4">
-								<div class="rounded-full bg-blue-600 p-5">
+								<div class="rounded-full bg-green-600 p-5">
 									<i class="fas fa-broadcast-tower fa-2x fa-inverse"></i>
 								</div>
 							</div>
@@ -66,10 +66,10 @@
 					</div>
 				</div>
 				<div class="w-full p-6 md:w-1/4">
-					<div class="rounded-lg border-b-4 border-blue-500 bg-gradient-to-b from-blue-200 to-blue-100 p-5 shadow-xl">
+					<div class="rounded-lg border-b-4 border-green-500 bg-gradient-to-b from-green-200 to-green-100 p-5 shadow-xl">
 						<div class="flex flex-row items-center">
 							<div class="flex-shrink pr-4">
-								<div class="rounded-full bg-blue-600 p-5">
+								<div class="rounded-full bg-green-600 p-5">
 									<i class="far dark:far fa-file fa-2x fa-inverse"></i>
 								</div>
 							</div>
@@ -83,10 +83,10 @@
 					</div>
 				</div>
 				<div class="w-full p-6 md:w-1/4">
-					<div class="rounded-lg border-b-4 border-blue-500 bg-gradient-to-b from-blue-200 to-blue-100 p-5 shadow-xl">
+					<div class="rounded-lg border-b-4 border-green-500 bg-gradient-to-b from-green-200 to-green-100 p-5 shadow-xl">
 						<div class="flex flex-row items-center">
 							<div class="flex-shrink pr-4">
-								<div class="rounded-full bg-blue-600 p-5">
+								<div class="rounded-full bg-green-600 p-5">
 									<i class="fas fa-satellite-dish fa-2x fa-inverse"></i>
 								</div>
 							</div>
@@ -100,10 +100,10 @@
 					</div>
 				</div>
 				<div class="w-full p-6 md:w-1/4">
-					<div class="rounded-lg border-b-4 border-blue-500 bg-gradient-to-b from-blue-200 to-blue-100 p-5 shadow-xl">
+					<div class="rounded-lg border-b-4 border-green-500 bg-gradient-to-b from-green-200 to-green-100 p-5 shadow-xl">
 						<div class="flex flex-row items-center">
 							<div class="flex-shrink pr-4">
-								<div class="rounded-full bg-blue-600 p-5">
+								<div class="rounded-full bg-green-600 p-5">
 									<i class="fas fa-signal fa-2x fa-inverse"></i>
 								</div>
 							</div>
@@ -117,63 +117,6 @@
 					</div>
 				</div>
 
-				<div class="w-full p-6 md:w-1/3 xl:w-1/3">
-					<div
-						class="{{ 100 > 300 ? 'border-red-500 from-red-200 to-red-100' : 'border-green-500 from-green-200 to-green-100' }} rounded-lg border-b-4 bg-gradient-to-b p-5 shadow-xl">
-						<div class="flex flex-row items-center">
-							<div class="flex-shrink pr-4">
-								<div class="{{ 100 > 300 ? 'bg-red-600' : 'bg-green-600' }} rounded-full p-5">
-									<i class="fas {{ 100 > 300 ? 'fa-thermometer-full' : 'fa-thermometer-empty' }} fa-2x fa-inverse"></i>
-								</div>
-							</div>
-							<div class="flex-1 text-right md:text-center">
-								<h2 class="font-bold uppercase text-gray-600">Temperatur</h2>
-								<p class="text-2xl font-bold">
-									<span class="font-normal italic">
-										{{-- {{ number_format($last->temperatur) }} --}}
-										100 C&deg; </span> |
-									{{ 100 > 300 ? 'Suhu Tinggi' : 'Suhu Normal' }}
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="w-full p-6 md:w-1/3 xl:w-1/3">
-					<div
-						class="{{ 100 > 300 ? 'border-red-500 from-red-200 to-red-100' : 'border-green-500 from-green-200 to-green-100' }} rounded-lg border-b-4 bg-gradient-to-b p-5 shadow-xl">
-						<div class="flex flex-row items-center">
-							<div class="flex-shrink pr-4">
-								<div class="{{ 100 > 300 ? 'bg-red-600' : 'bg-green-600' }} rounded-full p-5">
-									<i class="fas fa-smoking fa-2x fa-inverse"></i>
-								</div>
-							</div>
-							<div class="flex-1 text-right md:text-center">
-								<h2 class="font-bold uppercase text-gray-600">Asap</h2>
-								<p class="text-2xl font-bold">
-									{{ 100 > 300 ? 'Asap Terdeteksi' : 'Tidak Terdeteksi' }}
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="w-full p-6 md:w-1/3 xl:w-1/3">
-					<div
-						class="{{ 100 > 300 ? 'border-red-500 from-red-200 to-red-100' : 'border-green-500 from-green-200 to-green-100' }} rounded-lg border-b-4 bg-gradient-to-b p-5 shadow-xl">
-						<div class="flex flex-row items-center">
-							<div class="flex-shrink pr-4">
-								<div class="{{ 100 > 300 ? 'bg-red-600' : 'bg-green-600' }} rounded-full p-5">
-									<i class="fas fa-fire-extinguisher fa-2x fa-inverse"></i>
-								</div>
-							</div>
-							<div class="flex-1 text-right md:text-center">
-								<h2 class="font-bold uppercase text-gray-600">Api</h2>
-								<p class="text-3xl font-bold">
-									{{ 100 > 300 ? 'Api Terdeteksi' : 'Tidak Terdeteksi' }}
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
 			</div>
 
 			{{-- Log chart --}}
@@ -183,7 +126,7 @@
 					<div class="rounded-lg border-transparent bg-white shadow-xl">
 						<div
 							class="rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b from-blue-300 to-blue-100 p-2 uppercase text-gray-800">
-							<h class="font-bold uppercase text-gray-600">Histori Daya (VA)</h>
+							<h class="font-bold uppercase text-gray-600">Histori Frekwensi (hz)</h>
 						</div>
 						<div class="p-2 md:p-5">
 
@@ -221,7 +164,7 @@
 					<div class="rounded-lg border-transparent bg-white shadow-xl">
 						<div
 							class="rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b from-blue-300 to-blue-100 p-2 uppercase text-gray-800">
-							<h2 class="font-bold uppercase text-gray-600">Histori Suhu (C&deg;)</h2>
+							<h2 class="font-bold uppercase text-gray-600">Histori Channel</h2>
 						</div>
 						<div class="p-2 md:p-5">
 							<canvas class="chartjs" id="chart-suhu"></canvas>
