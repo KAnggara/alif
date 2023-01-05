@@ -14,7 +14,8 @@
 
 	<link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet">
 	<title>Keterbukaan Informasi Radio</title>
-	<script src="js/Chart.bundle.min.js"></script>
+	{{-- <script src="js/Chart.bundle.min.js"></script> --}}
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 </head>
 
@@ -47,160 +48,110 @@
 			</div>
 
 			<div class="flex flex-wrap">
+				<!-- component -->
+				<div class="container mx-auto px-4 sm:px-8">
+					<div class="py-8">
+						{{ $data->onEachSide(1)->links() }}
+						<div class="-mx-4 overflow-x-auto px-4 py-4 sm:-mx-8 sm:px-8">
+							<div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
+								<table class="min-w-full leading-normal">
+									<thead>
+										<tr>
+											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
+												Time
+											</th>
+											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
+												Frequency
+											</th>
+											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
+												State
+											</th>
+											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
+												Status
+											</th>
+											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
+												Station Id
+											</th>
+											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
+												Bit error Ratio
+											</th>
+											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
+												Signal to Noise
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										@foreach ($data as $d)
+											<tr>
+												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5 text-center">
+													<div class="flex items-center">
+														<div class="ml-3">
+															<p class="text-gray-900">
+																{{ date('d/m/y', $d['time']) }}
+																</br>
+																{{ date('h:i:s', $d['time']) }}
+															</p>
+														</div>
+													</div>
+												</td>
+												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
+													<div class="ml-3">
+														<p class="text-gray-900">
+															{{ $d['frequency'] }}
+														</p>
+													</div>
+												</td>
+												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
+													<div class="ml-3">
+														<p class="text-gray-900">
+															{{ $d['state'] }} {{ $d['destination'] }}
+														</p>
+													</div>
+												</td>
+												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
+													<div class="ml-3">
+														<p class="text-gray-900">
+															{{ $d['status'] }}
+														</p>
+													</div>
+												</td>
+												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
+													<div class="ml-3">
+														<p class="text-gray-900">
+															{{ $d['station_id'] }}
+														</p>
+													</div>
+												</td>
+												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
 
-				<div class="w-full p-6 md:w-1/4">
-					<div class="rounded-lg border-b-4 border-green-500 bg-gradient-to-b from-green-200 to-green-100 p-5 shadow-xl">
-						<div class="flex flex-row items-center">
-							<div class="flex-shrink pr-4">
-								<div class="rounded-full bg-green-600 p-5">
-									<i class="fas fa-broadcast-tower fa-2x fa-inverse"></i>
-								</div>
-							</div>
-							<div class="flex-1 text-right md:text-center">
-								<h2 class="font-bold uppercase text-gray-600">Tower</h2>
-								<p class="text-3xl font-bold">
-									{{-- {{ $last->voltase }} Volt --}}
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="w-full p-6 md:w-1/4">
-					<div class="rounded-lg border-b-4 border-green-500 bg-gradient-to-b from-green-200 to-green-100 p-5 shadow-xl">
-						<div class="flex flex-row items-center">
-							<div class="flex-shrink pr-4">
-								<div class="rounded-full bg-green-600 p-5">
-									<i class="far dark:far fa-file fa-2x fa-inverse"></i>
-								</div>
-							</div>
-							<div class="flex-1 text-right md:text-center">
-								<h2 class="font-bold uppercase text-gray-600">File</h2>
-								<p class="text-3xl font-bold">
-									{{-- {{ $last->voltase }} Volt --}}
-								</p>
+													<div class="ml-3">
+														<p class="text-gray-900">
+															{{ $d['ber'] }}
+														</p>
+													</div>
+												</td>
+												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
+													<div class="ml-3">
+														<p class="text-gray-900">
+															{{ $d['sn'] }}
+														</p>
+													</div>
+												</td>
+											</tr>
+										@endforeach
+									</tbody>
+								</table>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="w-full p-6 md:w-1/4">
-					<div class="rounded-lg border-b-4 border-green-500 bg-gradient-to-b from-green-200 to-green-100 p-5 shadow-xl">
-						<div class="flex flex-row items-center">
-							<div class="flex-shrink pr-4">
-								<div class="rounded-full bg-green-600 p-5">
-									<i class="fas fa-satellite-dish fa-2x fa-inverse"></i>
-								</div>
-							</div>
-							<div class="flex-1 text-right md:text-center">
-								<h2 class="font-bold uppercase text-gray-600">Satellite</h2>
-								<p class="text-3xl font-bold">
-									{{-- {{ $last->voltase }} Volt --}}
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="w-full p-6 md:w-1/4">
-					<div class="rounded-lg border-b-4 border-green-500 bg-gradient-to-b from-green-200 to-green-100 p-5 shadow-xl">
-						<div class="flex flex-row items-center">
-							<div class="flex-shrink pr-4">
-								<div class="rounded-full bg-green-600 p-5">
-									<i class="fas fa-signal fa-2x fa-inverse"></i>
-								</div>
-							</div>
-							<div class="flex-1 text-right md:text-center">
-								<h2 class="font-bold uppercase text-gray-600">Signal</h2>
-								<p class="text-3xl font-bold">
-									{{-- {{ $last->voltase }} Volt --}}
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-
 			</div>
-
-			{{-- Log chart --}}
-			<div class="mt-2 flex flex-grow flex-row flex-wrap">
-				<div class="w-full p-6 md:w-1/2 xl:w-1/2">
-					<!--Graph Card-->
-					<div class="rounded-lg border-transparent bg-white shadow-xl">
-						<div
-							class="rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b from-blue-300 to-blue-100 p-2 uppercase text-gray-800">
-							<h class="font-bold uppercase text-gray-600">Histori Frekwensi (hz)</h>
-						</div>
-						<div class="p-2 md:p-5">
-
-							<canvas class="chartjs" id="chartjs-daya"></canvas>
-							<script>
-								const ctxA = document.getElementById("chartjs-daya");
-
-								let daya = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-								let dateA = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-								new Chart(ctxA, {
-									type: "line",
-									data: {
-										labels: dateA,
-										datasets: [{
-											label: "Daya (VA)",
-											data: daya.reverse(),
-											borderColor: "rgba(255, 0, 132, 1)",
-											reverse: true,
-											fill: true
-										}]
-									},
-									options: {
-										rotation: (0.5 * Math.PI),
-										legend: {
-											display: false,
-										},
-									}
-								});
-							</script>
-						</div>
-					</div>
-				</div>
-
-				<div class="w-full p-6 md:w-1/2 xl:w-1/2">
-					<div class="rounded-lg border-transparent bg-white shadow-xl">
-						<div
-							class="rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b from-blue-300 to-blue-100 p-2 uppercase text-gray-800">
-							<h2 class="font-bold uppercase text-gray-600">Histori Channel</h2>
-						</div>
-						<div class="p-2 md:p-5">
-							<canvas class="chartjs" id="chart-suhu"></canvas>
-							<script>
-								const ctxB = document.getElementById("chart-suhu");
-								let suhu = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
-								let date = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-								new Chart(ctxB, {
-									type: "line",
-									data: {
-										labels: date,
-										datasets: [{
-											data: suhu.reverse(),
-											label: "Suhu (C)",
-											lineTension: 0.5,
-											borderColor: "rgb(75, 192, 50)",
-										}]
-									},
-									options: {
-										legend: {
-											display: false,
-										},
-									}
-								});
-							</script>
-						</div>
-					</div>
-				</div>
-
-			</div>
+		</div>
 
 	</main>
-
+	{{-- {{ $data }} --}}
 	<script src="js/script.js"></script>
 	<script src="js/app.js"></script>
-
 </body>
 
 </html>

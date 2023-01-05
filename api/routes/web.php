@@ -1,9 +1,10 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
-Route::view('/', 'home');
+Route::get('/', [HomeController::class, 'index']);
 
 Route::view('/dashboard', 'dashboard')->middleware(['auth'])->name('dashboard');
 
