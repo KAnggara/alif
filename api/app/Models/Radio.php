@@ -8,6 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class Radio extends Model
 {
   use HasFactory;
+  protected $fillable = [
+    'time',
+    'frequency',
+    'state',
+    'destination',
+    'status',
+    'station_id',
+    'ber',
+    'sn',
+  ];
 
   public function radio()
   {

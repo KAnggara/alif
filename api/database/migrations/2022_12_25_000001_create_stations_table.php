@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('station_id')->unique();
             $table->string('location');
-            $table->string('inisial')->unique();
+            $table->string('country');
+            $table->string('initial')->unique();
             $table->timestamps();
         });
     }

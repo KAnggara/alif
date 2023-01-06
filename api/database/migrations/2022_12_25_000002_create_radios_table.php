@@ -18,10 +18,10 @@ return new class extends Migration
             $table->integer('time');
             $table->integer('frequency');
             $table->enum('state', ['SND', 'TO']);
-            $table->integer('destination')->nullable();
+            $table->string('destination')->nullable();
             $table->enum('status', ['TIS', 'TWS']);
             $table->string('station_id');
-            $table->foreign('station_id')->references('station_id')->on('stations');
+            // $table->foreign('station_id')->references('station_id')->on('stations');
             $table->integer('ber');
             $table->integer('sn');
             $table->timestamps();

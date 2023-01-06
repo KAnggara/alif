@@ -8,6 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Station extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'statio',
+        'location',
+        'country',
+        'initial',
+    ];
 
     public function station()
     {
