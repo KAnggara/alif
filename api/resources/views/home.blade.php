@@ -15,18 +15,17 @@
 	<link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet">
 	<title>Keterbukaan Informasi Radio</title>
 	{{-- <script src="js/Chart.bundle.min.js"></script> --}}
-	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	{{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
 
 </head>
 
-<body class="bg-gray-300 py-4 font-sans leading-normal tracking-normal dark:bg-gray-800">
+<body class="bg-gray-300 font-sans leading-normal tracking-normal dark:bg-gray-800 md:py-4">
 	@php
 		date_default_timezone_set('Asia/Jakarta');
 		$now = date('D, d M Y | H:i');
 	@endphp
 	<main>
-		<div
-			class="items-top relative m-10 min-h-fit flex-1 justify-center rounded-3xl bg-gray-100 py-4 sm:items-center sm:pt-0"
+		<div class="items-top relative mx-4 mb-10 min-h-fit justify-center rounded-3xl bg-gray-100 sm:items-center md:mx-8"
 			id="main">
 			@if (Route::has('login'))
 				<div class="fixed top-0 right-0 mt-4 mr-10 hidden sm:block">
@@ -38,102 +37,164 @@
 					@endauth
 				</div>
 			@endif
-
+			{{-- Search --}}
 			<div
-				class="items-center justify-center rounded-t-3xl bg-gradient-to-r from-blue-400 to-blue-700 p-4 text-2xl text-white shadow">
-				<h1 class="pl-2 text-center text-3xl font-bold">
+				class="mt-10 block items-center justify-center rounded-t-3xl bg-gradient-to-r from-blue-400 to-blue-700 py-2 text-white shadow md:flex md:justify-between md:p-4">
+				<h1 class="text-md flex items-center justify-center font-bold md:text-3xl">
 					<i class="fas fa-calendar-alt fa-inverse"></i>
 					{{ $now }} WIB
 				</h1>
+				<form action="/" method="get">
+					<div class="mt-2 flex items-center justify-center px-2">
+						<input class="w-24 rounded-l-full pl-2 text-sm text-black md:px-4 md:py-2" id="search" name="search"
+							type="text" value="{{ request('search') }}" placeholder="Search...">
+
+						<label for="category" hidden>Choose a category:</label>
+						<select class="w-16 bg-gray-300 text-base font-semibold text-gray-700" id="category" name="category">
+
+							<option class="text-sm" value="all">All</option>
+							@php
+								$ignore = ['time', 'state', 'destination', 'status'];
+								for ($i = 0; $i < count($ignore); $i++) {
+								    $key = array_search($ignore[$i], $columns);
+								    unset($columns[$key]);
+								}
+							@endphp
+							@foreach ($columns as $column)
+								<option class="text-sm md:text-2xl" value="{{ $column }}"
+									{{ request('category') == $column ? 'selected' : '' }}>
+									{{ strtoupper($column) }}
+								</option>
+							@endforeach
+
+						</select>
+
+						<button class="w-20 rounded-r-full bg-gray-600 text-sm text-white md:text-xl" type="submit">
+							Search
+						</button>
+					</div>
+				</form>
 			</div>
 
-			<div class="flex flex-wrap">
+			<div class="mt-2 flex items-center justify-center text-sm font-medium text-gray-700">
+				<a
+					class="{{ request('item') == '10' ? 'bg-blue-200' : 'bg-white' }} ml-px mr-1 rounded-md border border-gray-300 px-4 py-2 md:mr-5"
+					href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&item=10"
+					aria-label="10">
+					10
+				</a>
+				<a
+					class="{{ request('item') == '25' ? 'bg-blue-200' : 'bg-white' }} ml-px mr-1 rounded-md border border-gray-300 px-4 py-2 md:mr-5"
+					href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&item=25"
+					aria-label="25">
+					25
+				</a>
+				<a
+					class="{{ request('item') == '50' ? 'bg-blue-200' : 'bg-white' }} ml-px mr-1 rounded-md border border-gray-300 px-4 py-2 md:mr-5"
+					href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&item=50"
+					aria-label="50">
+					50
+				</a>
+				<a
+					class="{{ request('item') == '100' ? 'bg-blue-200' : 'bg-white' }} ml-px mr-1 rounded-md border border-gray-300 px-4 py-2 md:mr-5"
+					href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&item=100"
+					aria-label="100">
+					100
+				</a>
+			</div>
+
+			{{-- Mobile --}}
+			<div class="flex flex-wrap md:hidden">
 				<!-- component -->
-				<div class="container mx-auto px-4 sm:px-8">
+				<div class="container mx-auto px-4 md:px-8">
 					<div class="py-8">
-						{{ $data->onEachSide(1)->links() }}
-						<div class="-mx-4 overflow-x-auto px-4 py-4 sm:-mx-8 sm:px-8">
-							<div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
-								<table class="min-w-full leading-normal">
+						<div class="-mx-4 overflow-x-auto px-2 py-2 text-xs sm:-mx-8 sm:px-8">
+							<div class="inline-block overflow-hidden rounded-lg shadow">
+								<table class="items-center justify-center leading-normal">
 									<thead>
 										<tr>
-											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
-												Time
+											<th class="cursor-pointer border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
+												<a
+													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=time">
+													Time
+													<i
+														class="fas {{ request('order') && request('column') == 'time' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+												</a>
 											</th>
-											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
-												Frequency
+											<th class="border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
+												<a
+													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=frequency">Freq
+													<i
+														class="fas {{ request('order') && request('column') == 'frequency' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+												</a>
 											</th>
-											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
-												State
+
+											<th class="border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
+												<a
+													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=station_id">Station
+													<i
+														class="fas {{ request('order') && request('column') == 'station_id' ? 'fa-sort-amount-down-alt' : 'fa-sort-amount-down' }}"></i>
+												</a>
 											</th>
-											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
-												Status
+											<th class="border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
+												<a
+													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=ber">BER
+													<i
+														class="fas {{ request('order') && request('column') == 'ber' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+												</a>
 											</th>
-											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
-												Station Id
-											</th>
-											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
-												Bit error Ratio
-											</th>
-											<th class="border-b-2 border-gray-900 bg-gray-200 px-2 py-2 text-center uppercase text-gray-600">
-												Signal to Noise
+											<th class="break-all border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
+												<a
+													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=sn">SN
+													<i
+														class="fas {{ request('order') && request('column') == 'sn' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+												</a>
 											</th>
 										</tr>
 									</thead>
 									<tbody>
-										@foreach ($data as $d)
+										@foreach ($radios as $r)
 											<tr>
-												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5 text-center">
+												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
 													<div class="flex items-center">
 														<div class="ml-3">
 															<p class="text-gray-900">
-																{{ date('d/m/y', $d['time']) }}
+																{{ date('d/m/y', $r['time']) }}
 																</br>
-																{{ date('h:i:s', $d['time']) }}
+																{{ date('h:i:s', $r['time']) }}
 															</p>
 														</div>
 													</div>
 												</td>
-												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
+												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
 													<div class="ml-3">
 														<p class="text-gray-900">
-															{{ $d['frequency'] }}
+															{{-- {{ (float) ($r['frequency'] / 1000000) }} MHz --}}
+															{{ (float) $r['frequency'] }}
 														</p>
 													</div>
 												</td>
-												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
-													<div class="ml-3">
-														<p class="text-gray-900">
-															{{ $d['state'] }} {{ $d['destination'] }}
-														</p>
-													</div>
-												</td>
-												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
-													<div class="ml-3">
-														<p class="text-gray-900">
-															{{ $d['status'] }}
-														</p>
-													</div>
-												</td>
-												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
-													<div class="ml-3">
-														<p class="text-gray-900">
-															{{ $d['station_id'] }}
-														</p>
-													</div>
-												</td>
-												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
 
+												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
 													<div class="ml-3">
 														<p class="text-gray-900">
-															{{ $d['ber'] }}
+															<a href="https://www.qrzcq.com/?q={{ $r['station_id'] }}" target="_blank">
+																{{ $r['station_id'] }}
+															</a>
 														</p>
 													</div>
 												</td>
-												<td class="w-1/7 border-b border-gray-300 bg-white px-5 py-5">
+												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
 													<div class="ml-3">
 														<p class="text-gray-900">
-															{{ $d['sn'] }}
+															{{ $r['ber'] }}
+														</p>
+													</div>
+												</td>
+												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
+													<div class="ml-3">
+														<p class="text-gray-900">
+															{{ $r['sn'] }}
 														</p>
 													</div>
 												</td>
@@ -143,13 +204,143 @@
 								</table>
 							</div>
 						</div>
+						{{ $radios->onEachSide(1)->links() }}
 					</div>
 				</div>
 			</div>
+
+			{{-- Desktop --}}
+			<div class="hidden flex-wrap md:flex">
+				<!-- component -->
+				<div class="container mx-auto px-4 pb-8 md:px-8">
+					<div class="-mx-4 overflow-x-auto px-4 py-4 sm:-mx-8 sm:px-8">
+						<div class="inline-block min-w-full overflow-hidden rounded-lg shadow">
+							<table class="min-w-full leading-normal">
+								<thead>
+									<tr class="cursor-pointer border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
+										<th class="p-2">
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=time">
+												Time
+												<i
+													class="fas {{ request('order') && request('column') == 'time' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+											</a>
+										</th>
+										<th class="p-2">
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=frequency">Frequency
+												<i
+													class="fas {{ request('order') && request('column') == 'frequency' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+											</a>
+										</th>
+										<th class="p-2">
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=state">State
+												<i
+													class="fas {{ request('order') && request('column') == 'state' ? 'fa-sort-amount-down-alt' : 'fa-sort-amount-down' }}"></i>
+											</a>
+										</th>
+										<th class="p-2">
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=status">Status
+												<i
+													class="fas {{ request('order') && request('column') == 'status' ? 'fa-sort-amount-down-alt' : 'fa-sort-amount-down' }}"></i>
+											</a>
+										</th>
+										<th class="p-2">
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=station_id">Station
+												Id
+												<i
+													class="fas {{ request('order') && request('column') == 'station_id' ? 'fa-sort-amount-down-alt' : 'fa-sort-amount-down' }}"></i>
+											</a>
+										</th>
+										<th class="p-2">
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=ber">Bit
+												error Ratio
+												<i
+													class="fas {{ request('order') && request('column') == 'ber' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+											</a>
+										</th>
+										<th class="p-2">
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=sn">Signal
+												to Noise
+												<i
+													class="fas {{ request('order') && request('column') == 'sn' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+											</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach ($radios as $r)
+										<tr>
+											<td class="w-1/7 border-b border-gray-300 bg-white text-center">
+												<p class="text-gray-900">
+													{{ date('d/m/y', $r['time']) }}
+													</br>
+													{{ date('h:i:s', $r['time']) }}
+												</p>
+											</td>
+											<td class="w-1/7 border-b border-gray-300 bg-white text-center">
+												<p class="text-gray-900">
+													{{ $r['frequency'] }}
+												</p>
+											</td>
+											<td class="w-1/7 border-b border-gray-300 bg-white text-center">
+												<div class="ml-3">
+													<p class="text-gray-900">
+														{{ $r['state'] }} {{ $r['destination'] }}
+													</p>
+												</div>
+											</td>
+											<td class="w-1/7 border-b border-gray-300 bg-white text-center">
+												<div class="ml-3">
+													<p class="text-gray-900">
+														{{ $r['status'] }}
+													</p>
+												</div>
+											</td>
+											<td class="w-1/7 border-b border-gray-300 bg-white text-center">
+												<div class="ml-3">
+													<p class="text-gray-900">
+														<a href="https://www.qrzcq.com/?q={{ $r['station_id'] }}" target="_blank">
+															{{ $r['station_id'] }}
+														</a>
+													</p>
+												</div>
+											</td>
+											<td class="w-1/7 border-b border-gray-300 bg-white text-center">
+
+												<div class="ml-3">
+													<p class="text-gray-900">
+														{{ $r['ber'] }}
+													</p>
+												</div>
+											</td>
+											<td class="w-1/7 border-b border-gray-300 bg-white text-center">
+												<div class="ml-3">
+													<p class="text-gray-900">
+														{{ $r['sn'] }}
+													</p>
+												</div>
+											</td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+						</div>
+					</div>
+					{{ $radios->onEachSide(1)->links() }}
+
+				</div>
+			</div>
+
 		</div>
 
 	</main>
-	{{-- {{ $data }} --}}
+
 	<script src="js/script.js"></script>
 	<script src="js/app.js"></script>
 </body>

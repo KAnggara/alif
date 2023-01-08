@@ -19,6 +19,17 @@ class Radio extends Model
     'sn',
   ];
 
+  public $sortable = [
+    'time',
+    'frequency',
+    'state',
+    'destination',
+    'status',
+    'station_id',
+    'ber',
+    'sn',
+  ];
+
   public function radio()
   {
     return $this->belongsTo(Station::class, 'station_id', 'station_id');
