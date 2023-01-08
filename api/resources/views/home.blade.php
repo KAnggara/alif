@@ -25,7 +25,8 @@
 		$now = date('D, d M Y | H:i');
 	@endphp
 	<main>
-		<div class="items-top relative mx-4 mb-10 min-h-fit justify-center rounded-3xl bg-gray-100 sm:items-center md:mx-8"
+		<div
+			class="items-top relative mx-4 mb-10 min-h-fit items-center justify-center rounded-3xl bg-gray-100 sm:items-center md:mx-8"
 			id="main">
 			@if (Route::has('login'))
 				<div class="fixed top-0 right-0 mt-4 mr-10 hidden sm:block">
@@ -75,8 +76,8 @@
 					</div>
 				</form>
 			</div>
-
-			<div class="mt-2 flex items-center justify-center text-sm font-medium text-gray-700">
+			{{-- items per Page  --}}
+			<div class="mt-2 flex justify-center text-sm font-medium text-gray-700">
 				<a
 					class="{{ request('item') == '10' ? 'bg-blue-200' : 'bg-white' }} ml-px mr-1 rounded-md border border-gray-300 px-4 py-2 md:mr-5"
 					href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&item=10"
@@ -104,107 +105,104 @@
 			</div>
 
 			{{-- Mobile --}}
-			<div class="flex flex-wrap md:hidden">
+			<div class="mt-2 flex flex-wrap justify-center md:hidden">
 				<!-- component -->
-				<div class="container mx-auto px-4 md:px-8">
-					<div class="py-8">
-						<div class="-mx-4 overflow-x-auto px-2 py-2 text-xs sm:-mx-8 sm:px-8">
-							<div class="inline-block overflow-hidden rounded-lg shadow">
-								<table class="items-center justify-center leading-normal">
-									<thead>
+				<div class="container px-2 pb-4 md:px-8">
+					<div class="overflow-x-auto px-2 py-2 text-xs sm:-mx-8 sm:px-8">
+						<div class="mb-4 overflow-hidden rounded-lg shadow">
+							<table class="leading-normal">
+								<thead>
+									<tr class="cursor-pointer border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
+										<th>
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=time">
+												Time
+												<i
+													class="fas {{ request('order') && request('column') == 'time' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+											</a>
+										</th>
+										<th>
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=frequency">Freq
+												<i
+													class="fas {{ request('order') && request('column') == 'frequency' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+											</a>
+										</th>
+										<th>
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=station_id">Station
+												<i
+													class="fas {{ request('order') && request('column') == 'station_id' ? 'fa-sort-amount-down-alt' : 'fa-sort-amount-down' }}"></i>
+											</a>
+										</th>
+										<th>
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=ber">BER
+												<i
+													class="fas {{ request('order') && request('column') == 'ber' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+											</a>
+										</th>
+										<th>
+											<a
+												href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=sn">SN
+												<i
+													class="fas {{ request('order') && request('column') == 'sn' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
+											</a>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach ($radios as $r)
 										<tr>
-											<th class="cursor-pointer border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
-												<a
-													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=time">
-													Time
-													<i
-														class="fas {{ request('order') && request('column') == 'time' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
-												</a>
-											</th>
-											<th class="border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
-												<a
-													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=frequency">Freq
-													<i
-														class="fas {{ request('order') && request('column') == 'frequency' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
-												</a>
-											</th>
+											<td class="w-1/5 border-b border-gray-300 bg-white p-2">
+												<div class="flex items-center">
+													<div class="ml-3">
+														<p class="text-gray-900">
+															{{ date('d/m/y', $r['time']) }}
+															</br>
+															{{ date('h:i:s', $r['time']) }}
+														</p>
+													</div>
+												</div>
+											</td>
+											<td class="w-1/5 border-b border-gray-300 bg-white p-2">
+												<div class="ml-3">
+													<p class="text-gray-900">
+														{{-- {{ (float) ($r['frequency'] / 1000000) }} MHz --}}
+														{{ (float) $r['frequency'] }}
+													</p>
+												</div>
+											</td>
 
-											<th class="border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
-												<a
-													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=station_id">Station
-													<i
-														class="fas {{ request('order') && request('column') == 'station_id' ? 'fa-sort-amount-down-alt' : 'fa-sort-amount-down' }}"></i>
-												</a>
-											</th>
-											<th class="border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
-												<a
-													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=ber">BER
-													<i
-														class="fas {{ request('order') && request('column') == 'ber' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
-												</a>
-											</th>
-											<th class="break-all border-b-2 border-gray-900 bg-gray-200 text-center uppercase text-gray-600">
-												<a
-													href="?search={{ request('search') }}&category={{ request('category') }}&order={{ !request('order') }}&column=sn">SN
-													<i
-														class="fas {{ request('order') && request('column') == 'sn' ? 'fa-sort-numeric-down' : 'fa-sort-numeric-down-alt' }}"></i>
-												</a>
-											</th>
+											<td class="w-1/5 border-b border-gray-300 bg-white p-2">
+												<div class="ml-3">
+													<p class="text-gray-900">
+														<a href="https://www.qrzcq.com/?q={{ $r['station_id'] }}" target="_blank">
+															{{ $r['station_id'] }}
+														</a>
+													</p>
+												</div>
+											</td>
+											<td class="w-1/5 border-b border-gray-300 bg-white p-2">
+												<div class="ml-3">
+													<p class="text-gray-900">
+														{{ $r['ber'] }}
+													</p>
+												</div>
+											</td>
+											<td class="w-1/5 border-b border-gray-300 bg-white p-2">
+												<div class="ml-3">
+													<p class="text-gray-900">
+														{{ $r['sn'] }}
+													</p>
+												</div>
+											</td>
 										</tr>
-									</thead>
-									<tbody>
-										@foreach ($radios as $r)
-											<tr>
-												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
-													<div class="flex items-center">
-														<div class="ml-3">
-															<p class="text-gray-900">
-																{{ date('d/m/y', $r['time']) }}
-																</br>
-																{{ date('h:i:s', $r['time']) }}
-															</p>
-														</div>
-													</div>
-												</td>
-												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
-													<div class="ml-3">
-														<p class="text-gray-900">
-															{{-- {{ (float) ($r['frequency'] / 1000000) }} MHz --}}
-															{{ (float) $r['frequency'] }}
-														</p>
-													</div>
-												</td>
-
-												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
-													<div class="ml-3">
-														<p class="text-gray-900">
-															<a href="https://www.qrzcq.com/?q={{ $r['station_id'] }}" target="_blank">
-																{{ $r['station_id'] }}
-															</a>
-														</p>
-													</div>
-												</td>
-												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
-													<div class="ml-3">
-														<p class="text-gray-900">
-															{{ $r['ber'] }}
-														</p>
-													</div>
-												</td>
-												<td class="w-1/5 border-b border-gray-300 bg-white p-2">
-													<div class="ml-3">
-														<p class="text-gray-900">
-															{{ $r['sn'] }}
-														</p>
-													</div>
-												</td>
-											</tr>
-										@endforeach
-									</tbody>
-								</table>
-							</div>
+									@endforeach
+								</tbody>
+							</table>
 						</div>
-						{{ $radios->onEachSide(1)->links() }}
+						{{ $radios->links() }}
 					</div>
 				</div>
 			</div>
@@ -332,13 +330,10 @@
 							</table>
 						</div>
 					</div>
-					{{ $radios->onEachSide(1)->links() }}
-
+					{{ $radios->links() }}
 				</div>
 			</div>
-
 		</div>
-
 	</main>
 
 	<script src="js/script.js"></script>
