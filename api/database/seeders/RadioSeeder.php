@@ -26,7 +26,7 @@ class RadioSeeder extends Seeder
           'time' => $data['0'],
           'frequency' => $data['1'],
           'state' => $data['2'],
-          'destination' => $data['3'],
+          'destination' => $data['3'] == 'null' ? null : $data['3'],
           'status' => $data['4'],
           'station_id' => $data['5'],
           'ber' => $data['6'],
