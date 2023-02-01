@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/table', [HomeController::class, 'table']);
 
 Route::view('/dashboard', 'dashboard')->middleware(['auth'])->name('dashboard');
 
