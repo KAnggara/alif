@@ -47,14 +47,15 @@
 				let ber = [];
 				let snr = [];
 				let timeLabel = [];
+				let frq = [];
 				let stationID;
 				let date;
-				var year;
-				var month;
-				var day;
-				var hours;
-				var minutes;
-				var seconds;
+				let year;
+				let month;
+				let day;
+				let hours;
+				let minutes;
+				let seconds;
 			</script>
 
 			@foreach ($locations as $location)
@@ -75,10 +76,13 @@
 								stationID = "{{ $location->station_id }}";
 								station = radios[stationID];
 
+
 								Object.values(station).forEach(val => {
 
 									ber.push(val.ber);
 									snr.push(val.sn);
+									frq.push((val.frequency) / (1000 * 1000));
+
 									date = new Date(0);
 									date.setUTCSeconds(val.time);
 									year = date.getFullYear();
@@ -92,13 +96,22 @@
 									timeLabel.push(date);
 								});
 
-								console.log(timeLabel.length);
-
 								new Chart(chartTarget, {
 									type: timeLabel.length < 5 ? 'bar' : 'line',
 									data: {
 										labels: timeLabel,
 										datasets: [{
+											fill: true,
+											label: "FRQ",
+											data: frq,
+											pointBorderColor: '#fff',
+											borderColor: 'rgb(87, 204, 153)',
+											pointHoverBackgroundColor: '#fff',
+											pointBackgroundColor: 'rgb(87, 204, 153)',
+											pointHoverBorderColor: 'rgb(87, 204, 153)',
+											backgroundColor: 'rgba(87, 204, 153, 0.3)',
+
+										}, {
 											fill: true,
 											label: "SNR",
 											data: snr,
@@ -119,7 +132,6 @@
 											pointBackgroundColor: 'rgb(255, 99, 132)',
 											pointHoverBorderColor: 'rgb(255, 99, 132)',
 											backgroundColor: 'rgba(255, 99, 132, 0.2)',
-
 										}]
 									},
 									options: {
