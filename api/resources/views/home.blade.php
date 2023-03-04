@@ -63,7 +63,7 @@
 					<div class="rounded-lg border-transparent bg-white shadow-xl">
 						<div
 							class="rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b from-blue-300 to-blue-100 p-2 uppercase text-gray-800">
-							<h2 class="font-bold uppercase text-gray-600">Histori Radio ALE {{ $location->location }}</h2>
+							<h2 class="font-bold uppercase text-gray-600">{{ $location->location }} | {{$location->station_id}}</h2>
 						</div>
 						<div class="p-2 md:p-5">
 							<canvas class="chartjs" id="{{ $location->station_id }}" />
