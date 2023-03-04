@@ -14,7 +14,6 @@
 	<link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet">
 	<title>Keterbukaan Informasi Radio</title>
 	<script src="js/Chart.bundle.min.js"></script>
-	{{-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> --}}
 
 </head>
 
