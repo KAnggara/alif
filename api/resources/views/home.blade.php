@@ -84,13 +84,17 @@
 
 									date = new Date(0);
 									date.setUTCSeconds(val.time);
+
 									year = date.getFullYear();
 									month = date.getMonth() + 1;
 									day = date.getDate();
 									hours = date.getHours();
 									minutes = date.getMinutes();
-									seconds = date.getSeconds();
-									date = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds + " WIB";
+									if (day < 10) day = '0' + day;
+									if (month < 10) month = '0' + month;
+									if (hours < 10) hours = '0' + hours;
+									if (minutes < 10) minutes = '0' + minutes;
+									date = hours + ":" + minutes + " " + day + "/" + month + "/" + year;
 
 									timeLabel.push(date);
 								});
@@ -101,26 +105,14 @@
 										labels: timeLabel,
 										datasets: [{
 											fill: true,
-											label: "FRQ",
-											data: frq,
-											pointBorderColor: '#fff',
-											borderColor: 'rgb(87, 204, 153)',
-											pointHoverBackgroundColor: '#fff',
-											pointBackgroundColor: 'rgb(87, 204, 153)',
-											pointHoverBorderColor: 'rgb(87, 204, 153)',
-											backgroundColor: 'rgba(87, 204, 153, 0.3)',
-
-										}, {
-											fill: true,
 											label: "SNR",
 											data: snr,
 											pointBorderColor: '#fff',
-											borderColor: 'rgb(189, 224, 254)',
+											borderColor: 'rgb(100, 200, 254)',
 											pointHoverBackgroundColor: '#fff',
 											pointBackgroundColor: 'rgb(189, 224, 254)',
 											pointHoverBorderColor: 'rgb(189, 224, 254)',
-											backgroundColor: 'rgba(189, 224, 254, 0.7)',
-
+											backgroundColor: 'rgba(189, 224, 254, 0.5)',
 										}, {
 											fill: true,
 											label: "BER",
@@ -131,6 +123,16 @@
 											pointBackgroundColor: 'rgb(255, 99, 132)',
 											pointHoverBorderColor: 'rgb(255, 99, 132)',
 											backgroundColor: 'rgba(255, 99, 132, 0.2)',
+										}, {
+											fill: true,
+											label: "FRQ",
+											data: frq,
+											pointBorderColor: '#fff',
+											borderColor: 'rgb(87, 204, 153)',
+											pointHoverBackgroundColor: '#fff',
+											pointBackgroundColor: 'rgb(87, 204, 153)',
+											pointHoverBorderColor: 'rgb(87, 204, 153)',
+											backgroundColor: 'rgba(87, 204, 153, 0.3)',
 										}]
 									},
 									options: {

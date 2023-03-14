@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/new', [HomeController::class, 'new']);
 Route::get('/table', [HomeController::class, 'table']);
 
 Route::view('/dashboard', 'dashboard')->middleware(['auth'])->name('dashboard');
