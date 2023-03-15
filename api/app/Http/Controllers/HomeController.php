@@ -42,7 +42,7 @@ class HomeController extends Controller
 		foreach ($stationsId as $id) {
 			$radio[$id] = Radio::select($select)
 				->where('station_id', $id)
-				->limit(10)
+				->limit(100)
 				->get();
 		}
 
