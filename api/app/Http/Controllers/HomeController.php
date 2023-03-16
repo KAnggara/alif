@@ -12,11 +12,6 @@ class HomeController extends Controller
 	{
 		$select = ['sn', 'ber', 'time', 'state', 'status', 'frequency'];
 
-		$stationsIdObj = Radio::select('station_id')
-			->whereRaw('LENGTH(station_id) > 4')
-			->groupBy('station_id')
-			->get();
-
 		// return $stationsIdObj;
 
 
@@ -109,6 +104,61 @@ class HomeController extends Controller
 
 		// CallLogModel::selectRaw('count(*) AS cnt, caller')->groupBy('caller')->orderBy('cnt', 'DESC')->limit(5)->get();
 
+	}
+
+	public function alls()
+	{
+		$select = ['sn', 'ber', 'time', 'state', 'status', 'frequency'];
+		$stationsId = ['YD0OXH', 'YD0OXH1', 'YD0OXH1A', 'YD0OXH3', 'YD0OXH5', 'YD0OXH7', 'YD0OXH8', 'YD0OXH9', 'YD0OXH9A'];
+
+		foreach ($stationsId as $id) {
+			$radio[$id] = Radio::select($select)
+				->where('station_id', $id)
+
+				->get();
+		}
+
+		$location = [];
+		foreach ($stationsId as $id) {
+			$locations = Station::select('location', 'station_id')
+				->where('station_id', $id)
+				->first();
+			array_push($location, $locations);
+		}
+
+		return view('home', [
+			'radios' => $radio,
+			'locations' => $location,
+		]);
+	}
+
+	public function all(int $limit)
+	{
+		// return gettype($limit);
+		$select = ['sn', 'ber', 'time', 'state', 'status', 'frequency'];
+		$stationsId = ['YD0OXH', 'YD0OXH1', 'YD0OXH1A', 'YD0OXH3', 'YD0OXH5', 'YD0OXH7', 'YD0OXH8', 'YD0OXH9', 'YD0OXH9A'];
+
+		foreach ($stationsId as $id) {
+			$radio[$id] = Radio::select($select)
+				->where('station_id', $id)
+				->limit($limit)
+				->get();
+		}
+
+		// return $radio;
+
+		$location = [];
+		foreach ($stationsId as $id) {
+			$locations = Station::select('location', 'station_id')
+				->where('station_id', $id)
+				->first();
+			array_push($location, $locations);
+		}
+
+		return view('home', [
+			'radios' => $radio,
+			'locations' => $location,
+		]);
 	}
 
 	public function new()
