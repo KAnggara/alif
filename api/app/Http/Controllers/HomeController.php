@@ -134,7 +134,6 @@ class HomeController extends Controller
 
 	public function all(int $limit)
 	{
-		// return gettype($limit);
 		$select = ['sn', 'ber', 'time', 'state', 'status', 'frequency'];
 		$stationsId = ['YD0OXH', 'YD0OXH1', 'YD0OXH1A', 'YD0OXH3', 'YD0OXH5', 'YD0OXH7', 'YD0OXH8', 'YD0OXH9', 'YD0OXH9A'];
 
@@ -144,8 +143,6 @@ class HomeController extends Controller
 				->limit($limit)
 				->get();
 		}
-
-		// return $radio;
 
 		$location = [];
 		foreach ($stationsId as $id) {
