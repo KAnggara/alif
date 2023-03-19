@@ -1,35 +1,225 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-
-<head>
-	<meta charset="utf-8">
-	<meta name="author" content="Alif">
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta name="description" content=" Automatic Link Establishment">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="keywords" content=" Automatic Link Establishment,ale,lapan,brin">
-
-	<!-- Fonts -->
-	<link href="https://fonts.bunny.net/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
-
-	<link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet">
-	<title>Keterbukaan Informasi Radio ALE</title>
-	<script src="js/Chart.bundle.min.js"></script>
-
-	<!-- Scripts -->
-	@vite(['resources/css/app.css', 'resources/js/app.js'])
-
-</head>
-
-<body class="font-sans antialiased">
+@extends('layouts.app')
+@section('content')
 	@php
 		date_default_timezone_set('Asia/Jakarta');
+		$year = date('Y');
 		$now = date('D, d M Y | H:i');
 	@endphp
-	<div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+	<div class="flex h-screen flex-col justify-between">
+		{{-- Header --}}
+		<header
+			class="supports-backdrop-blur:bg-white/60 sticky top-0 z-40 w-full flex-none bg-white/95 text-slate-900 backdrop-blur transition-colors duration-500 dark:border-slate-50/[0.06] dark:bg-transparent dark:text-slate-300 lg:z-50 lg:border-b lg:border-slate-900/10">
+			<div class="max-w-8xl mx-auto">
+				<div class="mx-4 py-2 lg:mx-0 lg:px-8">
+					<div class="relative flex items-center lg:pl-10">
+						<h1 class="font-bold lg:text-2xl lg:font-semibold">Keterbukaan Informasi Radio ALE</h1>
+					</div>
+				</div>
+			</div>
+		</header>
+		{{-- Main Content --}}
+		<main class="flex h-screen bg-gray-100 dark:bg-gray-900">
+			<!-- Fixed sidebar -->
+			<div class="h-auto w-64">
+				<!-- Sidebar content -->
+				<nav class="relative px-4 py-6 lg:text-sm" id="nav">
+					<div class="form-control">
+						<form class="mt-5" action="/" method="post">
 
+							<div class="relative max-w-sm">
+								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+									<svg class="h-5 w-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+										xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd"
+											d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+											clip-rule="evenodd"></path>
+									</svg>
+								</div>
+								<input
+									class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+									name="start" type="text" datepicker placeholder="{{ $start }}">
+							</div>
+							<label class="label sticky top-0 text-lg font-bold text-sky-500 dark:text-sky-400">To</label>
+							<div class="relative max-w-sm">
+								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+									<svg class="h-5 w-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+										xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd"
+											d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+											clip-rule="evenodd"></path>
+									</svg>
+								</div>
+								<input
+									class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
+									name="end" type="text" datepicker placeholder="{{ $end }}">
+							</div>
+
+							<div class="divider"></div>
+							<label class="label sticky top-0 text-2xl font-bold text-sky-500 dark:text-sky-400">Stasiun</label>
+							@foreach ($listlocations as $location)
+								<label class="label cursor-pointer">
+									<span
+										class="label-text text-sm font-semibold text-slate-700 hover:text-base hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">{{ $location->location }}</span>
+									<input class="checkbox-accent checkbox checkbox-xs" id="{{ $location->station_id }}" name="stationsId[]"
+										type="checkbox" value="{{ $location->station_id }}" {{ $location->state ? 'checked' : '' }} />
+								</label>
+							@endforeach
+							<div class="divider"></div>
+							<select class="select-bordered select-info select select-sm w-full max-w-xs text-xs" name="limit">
+								<option disabled selected>Data to Show ({{ $limit }})</option>
+								<option>50</option>
+								<option>100</option>
+								<option>150</option>
+								<option>500</option>
+							</select>
+							<div class="divider"></div>
+							<input class="btn-sm" type="reset" value="Reset" />
+							<button class="btn-accent btn-sm" type="submit">Save</button>
+							@csrf
+						</form>
+					</div>
+				</nav>
+			</div>
+			<!-- Scroll wrapper -->
+			<div class="flex flex-1 overflow-hidden">
+				<!-- Scrollable container -->
+				<div class="flex-1 overflow-y-scroll">
+					<div class="px-6 pt-6 pb-10">
+						<!-- Your content -->
+						<script>
+							let radios = {!! json_encode($radios, JSON_HEX_TAG) !!};
+							let stationsID = Object.keys(radios);
+							let propertyValues = Object.values(radios);
+
+							let chartTarget;
+							let ber = [];
+							let snr = [];
+							let timeLabel = [];
+							let frq = [];
+							let stationID;
+							let date;
+							let year;
+							let month;
+							let day;
+							let hours;
+							let minutes;
+							let seconds;
+						</script>
+
+						@foreach ($locations as $location)
+							<div class="mt-6 w-full">
+								<div class="rounded-lg border-transparent bg-white shadow-xl">
+									<div
+										class="rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b from-blue-300 to-blue-100 p-2 uppercase text-gray-800">
+										<h2 class="font-bold uppercase text-gray-600">PKU - {{ $location->location }} | {{ $location->station_id }}
+										</h2>
+									</div>
+									<div class="p-2 md:p-5">
+										<canvas class="chartjs" id="{{ $location->station_id }}-chart"></canvas>
+
+										<script>
+											ber = [];
+											snr = [];
+											timeLabel = [];
+											chartTarget = document.getElementById("{{ $location->station_id }}-chart");
+
+											stationID = "{{ $location->station_id }}";
+											station = radios[stationID];
+
+											Object.values(station).forEach(val => {
+												ber.push(val.ber);
+												snr.push(val.sn);
+												frq.push((val.frequency) / (1000 * 1000));
+
+												date = new Date(0);
+												date.setUTCSeconds(val.time);
+
+												year = date.getFullYear();
+												month = date.getMonth() + 1;
+												day = date.getDate();
+												hours = date.getHours();
+												minutes = date.getMinutes();
+												if (day < 10) day = '0' + day;
+												if (month < 10) month = '0' + month;
+												if (hours < 10) hours = '0' + hours;
+												if (minutes < 10) minutes = '0' + minutes;
+												date = hours + ":" + minutes + " " + day + "/" + month + "/" + year;
+
+												timeLabel.push(date);
+											});
+
+											new Chart(chartTarget, {
+												type: timeLabel.length < 5 ? 'bar' : 'line',
+												data: {
+													labels: timeLabel,
+													datasets: [{
+														fill: true,
+														label: "SNR",
+														data: snr,
+														pointBorderColor: '#fff',
+														borderColor: 'rgb(100, 200, 254)',
+														pointHoverBackgroundColor: '#fff',
+														pointBackgroundColor: 'rgb(189, 224, 254)',
+														pointHoverBorderColor: 'rgb(189, 224, 254)',
+														backgroundColor: 'rgba(189, 224, 254, 0.5)',
+													}, {
+														fill: true,
+														label: "BER",
+														data: ber,
+														pointBorderColor: '#fff',
+														borderColor: 'rgb(255, 99, 132)',
+														pointHoverBackgroundColor: '#fff',
+														pointBackgroundColor: 'rgb(255, 99, 132)',
+														pointHoverBorderColor: 'rgb(255, 99, 132)',
+														backgroundColor: 'rgba(255, 99, 132, 0.2)',
+													}, {
+														fill: true,
+														label: "FRQ",
+														data: frq,
+														pointBorderColor: '#fff',
+														borderColor: 'rgb(87, 204, 153)',
+														pointHoverBackgroundColor: '#fff',
+														pointBackgroundColor: 'rgb(87, 204, 153)',
+														pointHoverBorderColor: 'rgb(87, 204, 153)',
+														backgroundColor: 'rgba(87, 204, 153, 0.3)',
+													}]
+												},
+												options: {
+													elements: {
+														line: {
+															borderWidth: 3
+														}
+													},
+													legend: {
+														display: true,
+													}
+												}
+											});
+										</script>
+									</div>
+								</div>
+
+							</div>
+						@endforeach
+
+					</div>
+				</div>
+			</div>
+		</main>
+		{{-- Footer --}}
+		<footer class="text-sm leading-3">
+			<div
+				class="justify-between border-t border-slate-200 px-20 pt-3 pb-10 text-slate-500 dark:border-slate-200/5 sm:flex">
+				<div class="mb-6 sm:mb-0 sm:flex">
+					<p>
+						<a class="text-xl hover:text-slate-900 dark:hover:text-slate-400" href="#">
+							Lab. Telekomunikasi Teknik Elektro UIN SUSKA | {{ $year }}</a>
+					</p>
+				</div>
+				<a class="text-xl hover:text-slate-900 dark:hover:text-slate-400" href="#">By Alif Ramadhan</a>
+			</div>
+		</footer>
 	</div>
-</body>
 
-</html>
+	{{-- <div class="max-w-8xl mx-auto px-4 sm:px-6 md:px-10"></div> --}}
+@endsection

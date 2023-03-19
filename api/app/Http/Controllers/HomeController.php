@@ -4,106 +4,76 @@ namespace App\Http\Controllers;
 
 use App\Models\Radio;
 use App\Models\Station;
+use Illuminate\Support\Arr;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
-	public function index()
+	public function index(Request $request)
 	{
-		$select = ['sn', 'ber', 'time', 'state', 'status', 'frequency'];
-
-		// return $stationsIdObj;
-
-
-		// STASIUN_DATA={''};
-		// STASIUN_ALE={'BANDUNG','PAMENGPEUK','SUMEDANG','WATUKOSEK','PEKANBARU','PONTIANAK','MANADO','BIAK','KUPANG'};
-
-		$stationsId = ['YD0OXH', 'YD0OXH1', 'YD0OXH1A', 'YD0OXH3', 'YD0OXH5', 'YD0OXH7', 'YD0OXH8', 'YD0OXH9', 'YD0OXH9A'];
-		// foreach ($stationsIdObj as $obj) {
-		// 	array_push($stationsId, $obj->station_id);
-		// }
-		// return $stationsId;
-
 		$location = [];
+		$listLocation = [];
+		$select = ['sn', 'ber', 'time', 'state', 'status', 'frequency'];
+		// add location based on sttation id
+		$listStationsId = ['YD0OXH', 'YD0OXH9', 'YD0OXH9A', 'YD0OXH5', 'YD0OXH8', 'YD0OXH1', 'YD0OXH7', 'YD0OXH1A', 'YD0OXH3'];
+
+		// Set all station to false
+		Station::where('state', true)->update(['state' => false]);
+
+		// show station for content
+		$stationsId = $request->stationsId;
+		isset($stationsId) ? $stationsId : $stationsId = $listStationsId;
+
+		// Set selected station to true
+		foreach ($stationsId as $id) {
+			Station::where('station_id', $id)->update(['state' => true]);
+		}
 
 		foreach ($stationsId as $id) {
 			$locations = Station::select('location', 'station_id')
 				->where('station_id', $id)
+				->where('state', true)
 				->first();
 			array_push($location, $locations);
 		}
-		// return $location;
+
+		// Show all station for Sidebar
+		foreach ($listStationsId as $id) {
+			$locations = Station::select('location', 'station_id', 'state')
+				->where('station_id', $id)
+				->first();
+			array_push($listLocation, $locations,);
+		}
+
+		// check start
+		$start = isset($request->start) ? strtotime($request->start) : 1577861669;
+
+
+		// check end
+		$end = isset($request->end) ? strtotime($request->end) : time();
+
+		$limit = isset($request->limit) ? $request->limit : 100;
+
+		// return $request->all();
 
 		foreach ($stationsId as $id) {
 			$radio[$id] = Radio::select($select)
 				->where('station_id', $id)
-				->limit(100)
+				->where('time', '>', $start)
+				->where('time', '<', $end)
+				->limit($limit)
 				->get();
 		}
 
-		// return $radio;
-
-		return view('home', [
+		return view('newhome', [
+			'limit' => $limit,
 			'radios' => $radio,
-			// 'stationsId' => $stationsId,
 			'locations' => $location,
-			// 'columns' => $thead,
+			'listlocations' => $listLocation,
+			'end' =>  date("d/m/Y", substr($end, 0, 10)),
+			'start' => date("d/m/Y", substr($start, 0, 10)),
 		]);
-
-		// $stationId[1] = Radio::select($select)
-		// 	->where('station_id', $stationId[1])
-		// 	->limit(10)
-		// 	->get();
-
-		// for ($i = 0; $i < count($stationId); $i++) {
-		// 	$data[$i] = $stationId[$i]->station_id;
-		// 	if (preg_match('/[a-z]/i', $data[$i]) && strlen($data[$i]) > 4) {
-		// 		// echo gettype($data[$i]) . ':' . $data[$i] . '<br>';
-		// 	}
-		// 	array_push($sta, $data[$i]);
-		// }
-		// return gettype($stationId);
-		// return $stationId[1];
-
-		$page = request()->get('item') ?? 25;
-
-		$order = request()->get('order') ? 'asc' : 'desc';
-
-		$column = request()->get('column') ? request()->get('column') : 'time';
-
-		$radio = Radio::groupBy('station_id');
-
-
-		// ->orderBy($column, $order);
-
-		if (request('search')) {
-			if (request('category') == 'all') {
-				$radio
-					->where('time', 'like', '%' . request('search') . '%')
-					->orWhere('frequency', 'like', '%' . request('search') . '%')
-					->orWhere('state', 'like', '%' . request('search') . '%')
-					->orWhere('destination', 'like', '%' . request('search') . '%')
-					->orWhere('status', 'like', '%' . request('search') . '%')
-					->orWhere('station_id', 'like', '%' . request('search') . '%')
-					->orWhere('ber', 'like', '%' . request('search') . '%')
-					->orWhere('sn', 'like', '%' . request('search') . '%');
-			} else {
-				$radio->where(request('category'), 'like', '%' . request('search') . '%');
-			}
-		}
-
-		$thead = Schema::getColumnListing('radios');
-
-		$ignore = ['id', 'created_at', 'updated_at'];
-		for ($i = 0; $i < count($ignore); $i++) {
-			$key = array_search($ignore[$i], $thead);
-			unset($thead[$key]);
-		}
-
-
-
-		// CallLogModel::selectRaw('count(*) AS cnt, caller')->groupBy('caller')->orderBy('cnt', 'DESC')->limit(5)->get();
-
 	}
 
 	public function alls()
@@ -114,7 +84,6 @@ class HomeController extends Controller
 		foreach ($stationsId as $id) {
 			$radio[$id] = Radio::select($select)
 				->where('station_id', $id)
-
 				->get();
 		}
 

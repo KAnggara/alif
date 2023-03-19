@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', [HomeController::class, 'index']);
+Route::post('/', [HomeController::class, 'index']);
 Route::get('/all', [HomeController::class, 'alls']);
 Route::get('/all/{limit}', [HomeController::class, 'all']);
 Route::get('/new', [HomeController::class, 'new']);
