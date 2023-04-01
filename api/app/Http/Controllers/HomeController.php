@@ -20,6 +20,7 @@ class HomeController extends Controller
 
 		// Set all station to false
 		Station::where('state', true)->update(['state' => false]);
+		$max = Radio::max('time');
 
 		// show station for content
 		$stationsId = $request->stationsId;
@@ -51,7 +52,7 @@ class HomeController extends Controller
 
 
 		// check end
-		$end = isset($request->end) ? strtotime($request->end) : time();
+		$end = isset($request->end) ? strtotime($request->end) : $max;
 
 		$limit = isset($request->limit) ? $request->limit : 100;
 
