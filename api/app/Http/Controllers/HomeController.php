@@ -58,6 +58,8 @@ class HomeController extends Controller
 
 		// return $request->all();
 
+		$colorsList = array("from-red-200 to-red-50 ", "from-green-200 to-green-50", "from-blue-200 to-blue-50", "from-yellow-200 to-yellow-50", "from-indigo-200 to-indigo-50", "from-pink-200 to-pink-50", "from-purple-200 to-purple-50", "from-gray-200 to-gray-50", "from-orange-200 to-orange-50");
+
 		foreach ($stationsId as $id) {
 			$radio[$id] = Radio::select($select)
 				->where('station_id', $id)
@@ -71,6 +73,7 @@ class HomeController extends Controller
 			'limit' => $limit,
 			'radios' => $radio,
 			'locations' => $location,
+			'colorsList' => $colorsList,
 			'listlocations' => $listLocation,
 			'end' =>  date("d/m/Y", substr($end, 0, 10)),
 			'start' => date("d/m/Y", substr($start, 0, 10)),

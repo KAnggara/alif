@@ -8,7 +8,7 @@
 	<div class="flex h-screen flex-col justify-between">
 		{{-- Header --}}
 		<header
-			class="supports-backdrop-blur:bg-white/60 sticky top-0 z-40 w-full flex-none bg-white/95 text-slate-900 backdrop-blur transition-colors duration-500 dark:border-slate-50/[0.06] dark:bg-transparent dark:text-slate-300 lg:z-50 lg:border-b lg:border-slate-900/10">
+			class="supports-backdrop-blur:bg-white/60 text-slate-900 dark:border-slate-50/[0.06] dark:text-slate-300 lg:border-slate-900/10 sticky top-0 z-40 w-full flex-none bg-white/95 backdrop-blur transition-colors duration-500 dark:bg-transparent lg:z-50 lg:border-b">
 			<div class="max-w-8xl mx-auto">
 				<div class="mx-4 py-2 lg:mx-0 lg:px-8">
 					<div class="relative flex items-center lg:pl-10">
@@ -39,7 +39,7 @@
 									class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
 									name="start" type="text" datepicker placeholder="{{ $start }}">
 							</div>
-							<label class="label sticky top-0 text-lg font-bold text-sky-500 dark:text-sky-400">To</label>
+							<label class="text-sky-500 dark:text-sky-400 label sticky top-0 text-lg font-bold">To</label>
 							<div class="relative max-w-sm">
 								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
 									<svg class="h-5 w-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
@@ -55,11 +55,11 @@
 							</div>
 
 							<div class="divider"></div>
-							<label class="label sticky top-0 text-2xl font-bold text-sky-500 dark:text-sky-400">Stasiun</label>
+							<label class="text-sky-500 dark:text-sky-400 label sticky top-0 text-2xl font-bold">Stasiun</label>
 							@foreach ($listlocations as $location)
 								<label class="label cursor-pointer">
 									<span
-										class="label-text text-sm font-semibold text-slate-700 hover:text-base hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300">{{ $location->location }}</span>
+										class="text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 label-text text-sm font-semibold hover:text-base">{{ $location->location }}</span>
 									<input class="checkbox-accent checkbox checkbox-xs" id="{{ $location->station_id }}" name="stationsId[]"
 										type="checkbox" value="{{ $location->station_id }}" {{ $location->state ? 'checked' : '' }} />
 								</label>
@@ -110,7 +110,7 @@
 							<div class="mt-6 w-full">
 								<div class="rounded-lg border-transparent bg-white shadow-xl">
 									<div
-										class="rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b from-blue-300 to-blue-100 p-2 uppercase text-gray-800">
+										class="{{ $colorsList[rand(0, 8)] }} rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b p-2 uppercase text-gray-800">
 										<h2 class="font-bold uppercase text-gray-600">PKU - {{ $location->location }} | {{ $location->station_id }}
 										</h2>
 									</div>
@@ -209,16 +209,27 @@
 		{{-- Footer --}}
 		<footer class="text-sm leading-3">
 			<div
-				class="justify-between border-t border-slate-200 px-20 pt-3 pb-10 text-slate-500 dark:border-slate-200/5 sm:flex">
+				class="border-slate-200 text-slate-500 dark:border-slate-200/5 justify-between border-t px-20 pt-3 pb-10 sm:flex">
 				<div class="mb-6 sm:mb-0 sm:flex">
 					<p>
-						<a class="text-xl hover:text-slate-900 dark:hover:text-slate-400" href="#">
+						<a class="hover:text-slate-900 dark:hover:text-slate-400 text-xl" href="#">
 							Lab. Telekomunikasi Teknik Elektro UIN SUSKA | {{ $year }}</a>
 					</p>
 				</div>
-				<a class="text-xl hover:text-slate-900 dark:hover:text-slate-400" href="#">By Alif Ramadhan</a>
+				<a class="hover:text-slate-900 dark:hover:text-slate-400 text-xl" href="#">By Alif Ramadhan</a>
 			</div>
 		</footer>
+	</div>
+	<div class="invisible">
+		<div class="bg-red-50 from-red-200 to-red-50"></div>
+		<div class="bg-green-50 from-green-200 to-green-50"></div>
+		<div class="bg-blue-50 from-blue-200 to-blue-50"></div>
+		<div class="bg-yellow-50 from-yellow-200 to-yellow-50"></div>
+		<div class="bg-indigo-50 from-indigo-200 to-indigo-50"></div>
+		<div class="bg-pink-50 from-pink-200 to-pink-50"></div>
+		<div class="bg-purple-50 from-purple-200 to-purple-50"></div>
+		<div class="bg-gray-50 from-gray-200 to-gray-50"></div>
+		<div class="bg-orange-50 from-orange-200 to-orange-50"></div>
 	</div>
 
 	{{-- <div class="max-w-8xl mx-auto px-4 sm:px-6 md:px-10"></div> --}}
