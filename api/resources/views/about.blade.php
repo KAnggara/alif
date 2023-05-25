@@ -1,17 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="keywords" content="Alif Ramadan, about, projects, expertise, web developer, developer, devops, blog">
-<meta name="description"
-	content="Mahasiswa teknik elektro UIN Suska Riau kosentrasi Telekomunikasi dengan penelitian tentang radio ALE">
-<link type="text/css" href="https://rioastamal.net/portfolio/css/mobile.css?build=202001140325" rel="stylesheet" />
-<title>About Alif Ramadan</title>
-<meta property="og:type" content="website" />
-<meta property="og:title" content="About Alif Ramadan" />
-<meta property="og:description"
-	content="Mahasiswa teknik elektro UIN Suska Riau kosentrasi Telekomunikasi dengan penelitian tentang radio ALE">
-<meta property="og:image" content="https://github.com/aliframadhan.png" />
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="Alif Ramadan, about, projects, expertise, web developer, developer, devops, blog">
+	<meta name="description"
+		content="Mahasiswa teknik elektro UIN Suska Riau kosentrasi Telekomunikasi dengan penelitian tentang radio ALE">
+	<link type="text/css" href="https://rioastamal.net/portfolio/css/mobile.css?build=202001140325" rel="stylesheet" />
+	<title>About Alif Ramadan</title>
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="About Alif Ramadan" />
+	<meta property="og:description"
+		content="Mahasiswa teknik elektro UIN Suska Riau kosentrasi Telekomunikasi dengan penelitian tentang radio ALE">
+	<meta property="og:image" content="https://github.com/aliframadhan.png" />
 </head>
 
 <body id="body">
