@@ -9,13 +9,53 @@
 		{{-- Header --}}
 		<header
 			class="supports-backdrop-blur:bg-white/60 text-slate-900 dark:border-slate-50/[0.06] dark:text-slate-300 lg:border-slate-900/10 sticky top-0 z-40 w-full flex-none bg-white/95 backdrop-blur transition-colors duration-500 dark:bg-transparent lg:z-50 lg:border-b">
-			<div class="max-w-8xl mx-auto">
-				<div class="mx-4 py-2 lg:mx-0 lg:px-8">
-					<div class="relative flex items-center lg:pl-10">
-						<h1 class="font-bold lg:text-2xl lg:font-semibold">Keterbukaan Informasi Radio ALE</h1>
+			<nav class="border-gray-200 bg-white dark:bg-gray-900">
+				<div class="mx-auto flex max-w-screen-xl flex-wrap items-center justify-between p-4">
+					<a class="flex items-center" href="https://alif.restwa.my.id">
+						<span class="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">Keterbukaan Informasi Radio
+							ALE</span>
+					</a>
+					<button
+						class="ml-3 inline-flex items-center rounded-lg p-2 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600 md:hidden"
+						data-collapse-toggle="navbar-default" type="button" aria-controls="navbar-default" aria-expanded="false">
+						<span class="sr-only">Open main menu</span>
+						<svg class="h-6 w-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+							<path fill-rule="evenodd"
+								d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+								clip-rule="evenodd"></path>
+						</svg>
+					</button>
+					<div class="hidden w-full md:block md:w-auto" id="navbar-default">
+						<ul
+							class="mt-4 flex flex-col rounded-lg border border-gray-100 bg-gray-50 p-4 font-medium dark:border-gray-700 dark:bg-gray-800 md:mt-0 md:flex-row md:space-x-8 md:border-0 md:bg-white md:p-0 md:dark:bg-gray-900">
+							<li>
+								<a
+									class="{{ $nav == 'home' ? 'bg-blue-700 text-white md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500' }} block rounded py-2 pl-3 pr-4 dark:text-white md:p-0"
+									href="/">Home</a>
+							</li>
+							{{-- MODUS FRQ YG SERING --}}
+							{{-- JUMLAH PENGUNJUNG --}}
+							{{-- ABOUT PEMBUAT --}}
+							<li>
+								<a
+									class="{{ $nav == 'data' ? 'bg-blue-700 text-white md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500' }} block rounded py-2 pl-3 pr-4 dark:text-white md:p-0"
+									href="data">All Data</a>
+							</li>
+							<li>
+								<a
+									class="{{ $nav == 'about' ? 'bg-blue-700 text-white md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500' }} block rounded py-2 pl-3 pr-4 dark:text-white md:p-0"
+									href="about">About</a>
+							</li>
+							<li>
+								<a
+									class="block rounded py-2 pl-3 pr-4 text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:p-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500"
+									href="#">Log In</a>
+							</li>
+						</ul>
 					</div>
 				</div>
-			</div>
+			</nav>
+
 		</header>
 		{{-- Main Content --}}
 		<main class="flex h-screen bg-gray-100 dark:bg-gray-900">

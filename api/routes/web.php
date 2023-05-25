@@ -6,7 +6,10 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', [HomeController::class, 'index']);
 Route::post('/', [HomeController::class, 'index']);
+Route::post('/data', [HomeController::class, 'data']);
+Route::get('/data', [HomeController::class, 'data']);
 Route::get('/all', [HomeController::class, 'alls']);
+Route::get('/about', [HomeController::class, 'about']);
 Route::get('/all/{limit}', [HomeController::class, 'all']);
 Route::get('/new', [HomeController::class, 'new']);
 Route::get('/table', [HomeController::class, 'table']);
