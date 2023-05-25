@@ -33,9 +33,6 @@
 									class="{{ $nav == 'home' ? 'bg-blue-700 text-white md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500' }} block rounded py-2 pl-3 pr-4 dark:text-white md:p-0"
 									href="/">Home</a>
 							</li>
-							{{-- MODUS FRQ YG SERING --}}
-							{{-- JUMLAH PENGUNJUNG --}}
-							{{-- ABOUT PEMBUAT --}}
 							<li>
 								<a
 									class="{{ $nav == 'data' ? 'bg-blue-700 text-white md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500' }} block rounded py-2 pl-3 pr-4 dark:text-white md:p-0"
@@ -60,66 +57,6 @@
 		{{-- Main Content --}}
 		<main class="flex h-screen bg-gray-100 dark:bg-gray-900">
 			<!-- Fixed sidebar -->
-			<div class="h-auto w-64">
-				<!-- Sidebar content -->
-				<nav class="relative px-4 py-6 lg:text-sm" id="nav">
-					<div class="form-control">
-						<form class="mt-5" action="/" method="post">
-
-							<div class="relative max-w-sm">
-								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-									<svg class="h-5 w-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-										xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd"
-											d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-											clip-rule="evenodd"></path>
-									</svg>
-								</div>
-								<input
-									class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-									name="start" type="text" datepicker placeholder="{{ $start }}">
-							</div>
-							<label class="text-sky-500 dark:text-sky-400 label sticky top-0 text-lg font-bold">To</label>
-							<div class="relative max-w-sm">
-								<div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-									<svg class="h-5 w-5 text-gray-500 dark:text-gray-400" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
-										xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd"
-											d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-											clip-rule="evenodd"></path>
-									</svg>
-								</div>
-								<input
-									class="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-									name="end" type="text" datepicker placeholder="{{ $end }}">
-							</div>
-
-							<div class="divider"></div>
-							<label class="text-sky-500 dark:text-sky-400 label sticky top-0 text-2xl font-bold">Stasiun</label>
-							@foreach ($listlocations as $location)
-								<label class="label cursor-pointer">
-									<span
-										class="text-slate-700 hover:text-slate-900 dark:text-slate-400 dark:hover:text-slate-300 label-text text-sm font-semibold hover:text-base">{{ $location->location }}</span>
-									<input class="checkbox-accent checkbox checkbox-xs" id="{{ $location->station_id }}" name="stationsId[]"
-										type="checkbox" value="{{ $location->station_id }}" {{ $location->state ? 'checked' : '' }} />
-								</label>
-							@endforeach
-							<div class="divider"></div>
-							<select class="select-bordered select-info select select-sm w-full max-w-xs text-xs" name="limit">
-								<option disabled selected>Data to Show ({{ $limit }})</option>
-								<option>50</option>
-								<option>100</option>
-								<option>150</option>
-								<option>500</option>
-							</select>
-							<div class="divider"></div>
-							<input class="btn-sm" type="reset" value="Reset" />
-							<button class="btn-accent btn-sm" type="submit">Save</button>
-							@csrf
-						</form>
-					</div>
-				</nav>
-			</div>
 			<!-- Scroll wrapper -->
 			<div class="flex flex-1 overflow-hidden">
 				<!-- Scrollable container -->

@@ -66,6 +66,7 @@ class HomeController extends Controller
 				->where('time', '>', $start)
 				->where('time', '<', $end)
 				->limit($limit)
+				->orderBy('time', 'desc')
 				->get();
 		}
 
@@ -137,10 +138,11 @@ class HomeController extends Controller
 				->where('time', '>', $start)
 				->where('time', '<', $end)
 				->limit($limit)
+				->orderBy('time', 'desc')
 				->get();
 		}
 
-		return view('newhome', [
+		return view('modus', [
 			'nav' => 'data',
 			'limit' => $limit,
 			'radios' => $radio,
