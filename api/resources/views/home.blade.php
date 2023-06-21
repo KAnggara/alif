@@ -1,19 +1,15 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<meta charset="UTF-8">
+<meta name="author" content="SiListrik">
+<meta name="description" content="SiListrik">
+<meta name="keywords" content="api,wa,listrik">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<head>
-	<meta charset="UTF-8">
-	<meta name="author" content="SiListrik">
-	<meta name="description" content="SiListrik">
-	<meta name="keywords" content="api,wa,listrik">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+@vite('resources/css/app.css')
 
-	@vite('resources/css/app.css')
-
-	<link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet">
-	<title>Keterbukaan Informasi Radio</title>
-	<script src="/js/Chart.bundle.min.js"></script>
+<link href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" rel="stylesheet">
+<title>Keterbukaan Informasi Radio</title>
+<script src="/js/Chart.bundle.min.js"></script>
 
 </head>
 

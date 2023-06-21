@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Radio;
 use App\Models\Station;
-use Illuminate\Support\Arr;
+use App\Traits\PaginationTraits;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class HomeController extends Controller
 {
+	use PaginationTraits;
 	public function index(Request $request)
 	{
 		$location = [];
@@ -82,75 +84,80 @@ class HomeController extends Controller
 		]);
 	}
 
-	public function data(Request $request)
+	public function data()
 	{
-		$location = [];
-		$listLocation = [];
-		$select = ['sn', 'ber', 'time', 'state', 'status', 'frequency'];
-		// add location based on sttation id
-		$listStationsId = ['YD0OXH', 'YD0OXH9', 'YD0OXH9A', 'YD0OXH5', 'YD0OXH8', 'YD0OXH1', 'YD0OXH7', 'YD0OXH1A', 'YD0OXH3'];
+		// GET List of date
+		$bestFrq = $radioDates = DB::table('radios')
+			->select(DB::raw('frequency'))
+			->get();
+		$frqArr = [];
+		for ($i = 0; $i < count($bestFrq); $i++) {
+			array_push($frqArr, $bestFrq[$i]->frequency);
+		}
+		$frqList = array_count_values($frqArr);
+		$frqModus = array_search(max($frqList), $frqList);
 
-		// Set all station to false
-		Station::where('state', true)->update(['state' => false]);
-		$max = Radio::max('time');
+		$dateList = [];
+		$radioData = [];
+		$dayEpoch = 86400;
+		$radioDates = DB::table('radios')
+			->select(DB::raw('count(frequency) as tx_times, FROM_UNIXTIME(time, "%Y-%m-%d") as dateCreate'))
+			->limit(100)
+			->groupBy('dateCreate')
+			->orderBy('dateCreate', 'asc')
+			->get();
 
-		// show station for content
-		$stationsId = $request->stationsId;
-		isset($stationsId) ? $stationsId : $stationsId = $listStationsId;
-
-		// Set selected station to true
-		foreach ($stationsId as $id) {
-			Station::where('station_id', $id)->update(['state' => true]);
+		for ($i = 0; $i < count($radioDates); $i++) {
+			array_push($dateList, $radioDates[$i]->dateCreate);
 		}
 
-		foreach ($stationsId as $id) {
-			$locations = Station::select('location', 'station_id')
-				->where('station_id', $id)
-				->where('state', true)
-				->first();
-			array_push($location, $locations);
-		}
-
-		// Show all station for Sidebar
-		foreach ($listStationsId as $id) {
-			$locations = Station::select('location', 'station_id', 'state')
-				->where('station_id', $id)
-				->first();
-			array_push($listLocation, $locations,);
-		}
-
-		// check start
-		$start = isset($request->start) ? strtotime($request->start) : 1577861669;
-
-
-		// check end
-		$end = isset($request->end) ? strtotime($request->end) : $max;
-
-		$limit = isset($request->limit) ? $request->limit : 100;
-
-		// return $request->all();
-
-		$colorsList = array("from-red-200 to-red-50 ", "from-green-200 to-green-50", "from-blue-200 to-blue-50", "from-yellow-200 to-yellow-50", "from-indigo-200 to-indigo-50", "from-pink-200 to-pink-50", "from-purple-200 to-purple-50", "from-gray-200 to-gray-50", "from-orange-200 to-orange-50");
-
-		foreach ($stationsId as $id) {
-			$radio[$id] = Radio::select($select)
-				->where('station_id', $id)
-				->where('time', '>', $start)
-				->where('time', '<', $end)
-				->limit($limit)
-				->orderBy('time', 'desc')
+		foreach ($dateList as $date) {
+			$radioDatas = DB::table('radios')
+				->select(DB::raw('frequency, station_id, FROM_UNIXTIME(time, "%Y-%m-%d") as dateCreate'))
+				->where('time', '>', strtotime($date))
+				->where('time', '<', strtotime($date) + $dayEpoch)
 				->get();
+
+			$valueArray = [];
+			for ($i = 0; $i < count($radioDatas); $i++) {
+				array_push($valueArray, $radioDatas[$i]->frequency);
+			}
+			$values = array_count_values($valueArray);
+			$mode = array_search(max($values), $values);
+			$output = [
+				'frequency' => $mode,
+				'total' => count($radioDatas),
+				'comunication' => max($values),
+				'epoch' => strtotime($date),
+				'dateCreate' => $date,
+			];
+			array_push($radioData,  $output);
 		}
 
+		$radioData = $this->paginate($radioData, 10);
+		$radioData->withPath('');
+
+		$as = array_keys($frqList);
+		sort($as);
+
+		$newFrqList = [];
+		foreach ($as as $key) {
+			$op = [
+				'frequency' => $key,
+				'total' => $frqList[$key],
+			];
+			array_push($newFrqList,  $op);
+		}
+
+		// return response()->json([
+		// 	'nav' => 'data',
+		// 	'frqList' => $newFrqList,
+		// 	'radioDatas' => $radioData,
+		// ]);
 		return view('modus', [
 			'nav' => 'data',
-			'limit' => $limit,
-			'radios' => $radio,
-			'locations' => $location,
-			'colorsList' => $colorsList,
-			'listlocations' => $listLocation,
-			'end' =>  date("d/m/Y", substr($end, 0, 10)),
-			'start' => date("d/m/Y", substr($start, 0, 10)),
+			'frqList' => $newFrqList,
+			'radioDatas' => $radioData,
 		]);
 	}
 

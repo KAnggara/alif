@@ -55,134 +55,73 @@
 
 		</header>
 		{{-- Main Content --}}
-		<main class="flex h-screen bg-gray-100 dark:bg-gray-900">
+		<main class="flex justify-center bg-gray-100 text-black dark:bg-gray-900">
 			<!-- Fixed sidebar -->
 			<!-- Scroll wrapper -->
-			<div class="flex flex-1 overflow-hidden">
-				<!-- Scrollable container -->
-				<div class="flex-1 overflow-y-scroll">
-					<div class="px-6 pt-6 pb-10">
-						<!-- Your content -->
-						<script>
-							let radios = {!! json_encode($radios, JSON_HEX_TAG) !!};
-							let stationsID = Object.keys(radios);
-							let propertyValues = Object.values(radios);
 
-							let chartTarget;
-							let ber = [];
-							let snr = [];
-							let timeLabel = [];
-							let frq = [];
-							let stationID;
-							let date;
-							let year;
-							let month;
-							let day;
-							let hours;
-							let minutes;
-							let seconds;
-						</script>
-
-						@foreach ($locations as $location)
-							<div class="mt-6 w-full">
-								<div class="rounded-lg border-transparent bg-white shadow-xl">
+			<!-- Scrollable container -->
+			<div class="m-6">
+				<table class="max-w-screen table-auto border-separate border border-black">
+					<thead>
+						<tr>
+							<th class="border border-black p-1">Date</th>
+							<th class="border border-black p-1">Frequency</th>
+							<th class="border border-black p-1">Comunication</th>
+							<th class="border border-black p-1">Status</th>
+							<th class="border border-black p-1">Details</th>
+						</tr>
+					</thead>
+					<tbody>
+						@foreach ($radioDatas as $data)
+							<tr>
+								<td class="border border-black p-2 text-left">{{ $data['dateCreate'] }} </td>
+								<td class="border border-black p-2 text-right">{{ number_format($data['frequency'] / 1000000, 4) }} MHz</td>
+								<td class="border border-black p-2 text-right">{{ $data['comunication'] . '/' . $data['total'] }} Times</td>
+								<td class="items-center justify-center border border-black p-2 text-center">
 									<div
-										class="{{ $colorsList[rand(0, 8)] }} rounded-tl-lg rounded-tr-lg border-b-2 border-gray-300 bg-gradient-to-b p-2 uppercase text-gray-800">
-										<h2 class="font-bold uppercase text-gray-600">PKU - {{ $location->location }} | {{ $location->station_id }}
-										</h2>
+										class="{{ ($data['comunication'] / $data['total']) * 100 <= 50 ? 'bg-pink-200' : 'bg-green-200' }} flex h-2 overflow-hidden rounded text-xs">
+										<div
+											class="{{ ($data['comunication'] / $data['total']) * 100 <= 50 ? 'bg-pink-500' : 'bg-green-500' }} flex flex-col justify-center whitespace-nowrap text-center text-white shadow-none"
+											style="width:{{ ($data['comunication'] / $data['total']) * 100 }}%"></div>
 									</div>
-									<div class="p-2 md:p-5">
-										<canvas class="chartjs" id="{{ $location->station_id }}-chart"></canvas>
-
-										<script>
-											ber = [];
-											snr = [];
-											timeLabel = [];
-											chartTarget = document.getElementById("{{ $location->station_id }}-chart");
-
-											stationID = "{{ $location->station_id }}";
-											station = radios[stationID];
-
-											Object.values(station).forEach(val => {
-												ber.push(val.ber);
-												snr.push(val.sn);
-												frq.push((val.frequency) / (1000 * 1000));
-
-												date = new Date(0);
-												date.setUTCSeconds(val.time);
-
-												year = date.getFullYear();
-												month = date.getMonth() + 1;
-												day = date.getDate();
-												hours = date.getHours();
-												minutes = date.getMinutes();
-												if (day < 10) day = '0' + day;
-												if (month < 10) month = '0' + month;
-												if (hours < 10) hours = '0' + hours;
-												if (minutes < 10) minutes = '0' + minutes;
-												date = hours + ":" + minutes + " " + day + "/" + month + "/" + year;
-
-												timeLabel.push(date);
-											});
-
-											new Chart(chartTarget, {
-												type: timeLabel.length < 5 ? 'bar' : 'line',
-												data: {
-													labels: timeLabel,
-													datasets: [{
-														fill: true,
-														label: "SNR",
-														data: snr,
-														pointBorderColor: '#fff',
-														borderColor: 'rgb(100, 200, 254)',
-														pointHoverBackgroundColor: '#fff',
-														pointBackgroundColor: 'rgb(189, 224, 254)',
-														pointHoverBorderColor: 'rgb(189, 224, 254)',
-														backgroundColor: 'rgba(189, 224, 254, 0.5)',
-													}, {
-														fill: true,
-														label: "BER",
-														data: ber,
-														pointBorderColor: '#fff',
-														borderColor: 'rgb(255, 99, 132)',
-														pointHoverBackgroundColor: '#fff',
-														pointBackgroundColor: 'rgb(255, 99, 132)',
-														pointHoverBorderColor: 'rgb(255, 99, 132)',
-														backgroundColor: 'rgba(255, 99, 132, 0.2)',
-													}, {
-														fill: true,
-														label: "FRQ",
-														data: frq,
-														pointBorderColor: '#fff',
-														borderColor: 'rgb(87, 204, 153)',
-														pointHoverBackgroundColor: '#fff',
-														pointBackgroundColor: 'rgb(87, 204, 153)',
-														pointHoverBorderColor: 'rgb(87, 204, 153)',
-														backgroundColor: 'rgba(87, 204, 153, 0.3)',
-													}]
-												},
-												options: {
-													elements: {
-														line: {
-															borderWidth: 3
-														}
-													},
-													legend: {
-														display: true,
-													}
-												}
-											});
-										</script>
-									</div>
-								</div>
-
-							</div>
+								</td>
+								<td class="items-center justify-center border border-black p-2 text-center">
+									<button class="rounded-full bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600">
+										View
+									</button>
+								</td>
+							</tr>
 						@endforeach
+					</tbody>
+				</table>
+			</div>
 
-					</div>
-				</div>
+			<!-- Scrollable container -->
+			<div class="m-6">
+				<table class="max-w-screen table-auto border-separate border border-black">
+					<thead>
+						<tr>
+							<th class="border border-black p-1">Frequency</th>
+							<th class="border border-black p-1">Comunication</th>
+
+						</tr>
+					</thead>
+					<tbody>
+
+						@foreach ($frqList as $frqObject)
+							<tr>
+								<td class="border border-black p-2 text-right">{{ number_format($frqObject['frequency'] / 1000 / 1000, 4) }} MHz
+								</td>
+								<td class="border border-black p-2 text-right">{{ number_format($frqObject['total'], 0) }} Times</td>
+							</tr>
+						@endforeach
+					</tbody>
+				</table>
 			</div>
 		</main>
+		<div class="flex justify-center">
+			{{ $radioDatas->links() }}
+		</div>
 		{{-- Footer --}}
 		<footer class="text-sm leading-3">
 			<div
@@ -197,17 +136,4 @@
 			</div>
 		</footer>
 	</div>
-	<div class="invisible">
-		<div class="bg-red-50 from-red-200 to-red-50"></div>
-		<div class="bg-green-50 from-green-200 to-green-50"></div>
-		<div class="bg-blue-50 from-blue-200 to-blue-50"></div>
-		<div class="bg-yellow-50 from-yellow-200 to-yellow-50"></div>
-		<div class="bg-indigo-50 from-indigo-200 to-indigo-50"></div>
-		<div class="bg-pink-50 from-pink-200 to-pink-50"></div>
-		<div class="bg-purple-50 from-purple-200 to-purple-50"></div>
-		<div class="bg-gray-50 from-gray-200 to-gray-50"></div>
-		<div class="bg-orange-50 from-orange-200 to-orange-50"></div>
-	</div>
-
-	{{-- <div class="max-w-8xl mx-auto px-4 sm:px-6 md:px-10"></div> --}}
 @endsection
