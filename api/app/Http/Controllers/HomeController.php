@@ -149,11 +149,6 @@ class HomeController extends Controller
 			array_push($newFrqList,  $op);
 		}
 
-		// return response()->json([
-		// 	'nav' => 'data',
-		// 	'frqList' => $newFrqList,
-		// 	'radioDatas' => $radioData,
-		// ]);
 		return view('modus', [
 			'nav' => 'data',
 			'frqList' => $newFrqList,
