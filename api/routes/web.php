@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 
-Route::get('/', [HomeController::class, 'index']);
-Route::post('/', [HomeController::class, 'index']);
-Route::post('/data', [HomeController::class, 'data']);
-Route::get('/data', [HomeController::class, 'data']);
+Route::post('/', [HomeController::class, 'data']);
+Route::get('/', [HomeController::class, 'data']);
+Route::get('/home', [HomeController::class, 'index']);
+Route::post('/home', [HomeController::class, 'index']);
 Route::get('/all', [HomeController::class, 'alls']);
 Route::get('/about', [HomeController::class, 'about']);
 Route::get('/all/{limit}', [HomeController::class, 'all']);
