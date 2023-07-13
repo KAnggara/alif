@@ -31,7 +31,7 @@
 							<li>
 								<a
 									class="{{ $nav == 'data' ? 'bg-blue-700 text-white md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500' }} block rounded py-2 pl-3 pr-4 dark:text-white md:p-0"
-									href="/">Modus</a>
+									href="/">Home</a>
 							</li>
 							{{-- MODUS FRQ YG SERING --}}
 							{{-- JUMLAH PENGUNJUNG --}}
@@ -39,7 +39,7 @@
 							<li>
 								<a
 									class="{{ $nav == 'home' ? 'bg-blue-700 text-white md:bg-transparent md:text-blue-700 md:dark:text-blue-500' : 'text-gray-900 hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white md:border-0 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:bg-transparent md:dark:hover:text-blue-500' }} block rounded py-2 pl-3 pr-4 dark:text-white md:p-0"
-									href="/home">Home</a>
+									href="/home">Data</a>
 							</li>
 							<li>
 								<a
