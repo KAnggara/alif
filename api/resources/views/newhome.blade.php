@@ -154,9 +154,8 @@
 										<h2 class="font-bold uppercase text-gray-600">PKU - {{ $location->location }} | {{ $location->station_id }}
 										</h2>
 									</div>
-									<div class="p-2 md:p-5">
+									<div class="p-2">
 										<canvas class="chartjs" id="{{ $location->station_id }}-chart"></canvas>
-
 										<script>
 											ber = [];
 											snr = [];
@@ -237,7 +236,7 @@
 											});
 										</script>
 									</div>
-                  <div class="p-2 md:p-5">Waktu Komunikasi</div>
+									<div class="pb-5 text-center text-lg font-bold">Waktu Komunikasi Data</div>
 								</div>
 
 							</div>
