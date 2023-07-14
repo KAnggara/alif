@@ -13,6 +13,7 @@ Route::get('/about', [HomeController::class, 'about']);
 Route::get('/all/{limit}', [HomeController::class, 'all']);
 Route::get('/new', [HomeController::class, 'new']);
 Route::get('/table', [HomeController::class, 'table']);
+Route::get('/date', [HomeController::class, 'date']);
 
 Route::view('/dashboard', 'dashboard')->middleware(['auth'])->name('dashboard');
 

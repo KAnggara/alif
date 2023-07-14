@@ -61,69 +61,37 @@
 			<!-- Scroll wrapper -->
 
 			<!-- Scrollable container -->
+
 			<div class="m-6">
 				<table class="max-w-screen table-auto border-separate border border-black">
 					<thead>
 						<tr>
-							<th class="border border-black p-1">Date</th>
+							<th class="border border-black p-1">Time</th>
+							<th class="border border-black p-1">Station ID</th>
 							<th class="border border-black p-1">Frequency</th>
-							<th class="border border-black p-1">Comunication</th>
-							<th class="border border-black p-1">Status</th>
-							<th class="border border-black p-1">Details</th>
+							<th class="border border-black p-1">SNR</th>
+							<th class="border border-black p-1">BER</th>
 						</tr>
 					</thead>
 					<tbody>
-						@foreach ($radioDatas as $data)
-							<tr>
-								<td class="border border-black p-2 text-left">{{ $data['dateCreate'] }} </td>
-								<td class="border border-black p-2 text-right">{{ number_format($data['frequency'] / 1000000, 4) }} MHz</td>
-								<td class="border border-black p-2 text-right">{{ $data['comunication'] . '/' . $data['total'] }} Times</td>
-								<td class="items-center justify-center border border-black p-2 text-center">
-									<div
-										class="{{ ($data['comunication'] / $data['total']) * 100 <= 50 ? 'bg-pink-200' : 'bg-green-200' }} flex h-2 overflow-hidden rounded text-xs">
-										<div
-											class="{{ ($data['comunication'] / $data['total']) * 100 <= 50 ? 'bg-pink-500' : 'bg-green-500' }} flex flex-col justify-center whitespace-nowrap text-center text-white shadow-none"
-											style="width:{{ ($data['comunication'] / $data['total']) * 100 }}%"></div>
-									</div>
-								</td>
-								<td class="items-center justify-center border border-black p-2 text-center">
-									<a class="rounded-full bg-blue-500 px-4 py-2 text-sm font-medium text-white hover:bg-blue-600"
-										href="/date?date={{ $data['dateCreate'] }}&frq={{ $data['frequency'] }}">
-										View
-									</a>
-								</td>
-							</tr>
-						@endforeach
-					</tbody>
-				</table>
-			</div>
+						@foreach ($radioSelected as $data)
+							<tr class="{{ $data->frequency == $frq ? 'bg-green-300' : 'bg-slate-300' }}">
+								<td class="border border-black p-2 text-left">{{ date('d/m/y H:i:s', substr($data->time, 0, 10)) }} WIB</td>
+								<td class="border border-black p-2 text-right">{{ $data->station_id }} </td>
+								<td class="border border-black p-2 text-right">{{ number_format($data->frequency / 1000000, 4) }} MHz</td>
+								<td class="border border-black p-2 text-right">{{ $data->sn }} </td>
+								<td class="border border-black p-2 text-right">{{ $data->ber }} </td>
 
-			<!-- Scrollable container -->
-			<div class="m-6">
-				<table class="max-w-screen table-auto border-separate border border-black">
-					<thead>
-						<tr>
-							<th class="border border-black p-1">Frequency</th>
-							<th class="border border-black p-1">Comunication</th>
-
-						</tr>
-					</thead>
-					<tbody>
-
-						@foreach ($frqList as $frqObject)
-							<tr>
-								<td class="border border-black p-2 text-right">{{ number_format($frqObject['frequency'] / 1000 / 1000, 4) }} MHz
-								</td>
-								<td class="border border-black p-2 text-right">{{ number_format($frqObject['total'], 0) }} Times</td>
 							</tr>
 						@endforeach
 					</tbody>
 				</table>
 			</div>
 		</main>
-		<div class="flex justify-center">
+		{{-- <div class="flex justify-center">
 			{{ $radioDatas->links() }}
-		</div>
+		</div> --}}
+
 		{{-- Footer --}}
 		<footer class="text-sm leading-3">
 			<div

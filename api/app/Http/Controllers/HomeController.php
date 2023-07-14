@@ -318,4 +318,24 @@ class HomeController extends Controller
 	{
 		return view('about', []);
 	}
+
+	public function date()
+	{
+		$date = request()->get('date');
+		$frq = request()->get('frq');
+		$startDate = strtotime($date);
+		$endDate = strtotime($date) + 86400;
+		$radioSelected = DB::table('radios')
+			->where('time', '>', $startDate)
+			->where('time', '<', $endDate)
+			->get();
+
+		$object = (object) $radioSelected;
+
+		return view('date', [
+			'nav' => 'data',
+			'frq'	=> $frq,
+			'radioSelected' => $object,
+		]);
+	}
 }
