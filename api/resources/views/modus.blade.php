@@ -66,7 +66,7 @@
 					<thead>
 						<tr>
 							<th class="border border-black p-1">Date</th>
-							<th class="border border-black p-1">Frequency</th>
+              <th class="border border-black p-1">Frekuensi Kanal Terbuka</th>
 							<th class="border border-black p-1">Comunication</th>
 							<th class="border border-black p-1">Status</th>
 							<th class="border border-black p-1">Details</th>
